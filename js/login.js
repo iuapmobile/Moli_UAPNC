@@ -183,43 +183,44 @@ function btnLoginNC_Click() {
 		UM.alert("用户名密码不能为空");
 	} else {
 
-		summer.callService("UMService.login", //原生方法名字（类名+方法名）
-		{
-			"appid" : "moli_UAPNC", //必填，key值不可变
-			"type" : "nc", //必填，key值不可变
-			"user" : username, //必填，key值不可变
-			"pass" : password, //必填，key值不可变
-			"funcode" : "Moli01", //自定义参数，当type为nc时，必填，与NC有关
-			"callback" : function(args) {//args是一个json对象
-				UM.hideLoadingBar();
-				if (args.resultcode == "1") {//表示正常登陆成功
-					alert("使用UMService.login登陆NC成功,args为：\n " + $summer.jsonToStr(args));
-					if (confirm("是否进行IFWLogin登录")) {
-						loginInfo = {
-							"username" : username,
-							"password" : password,
+		if (confirm("直接走IFWLogin登录？")) {
+			callSSOLoginController(loginInfo);
+		} else {
+			summer.callService("UMService.login", //原生方法名字（类名+方法名）
+			{
+				"appid" : "moli_UAPNC", //必填，key值不可变
+				"type" : "nc", //必填，key值不可变
+				"user" : username, //必填，key值不可变
+				"pass" : password, //必填，key值不可变
+				"funcode" : "Moli01", //自定义参数，当type为nc时，必填，与NC有关
+				"callback" : function(args) {//args是一个json对象
+					UM.hideLoadingBar();
+					if (args.resultcode == "1") {//表示正常登陆成功
+						alert("使用UMService.login登陆NC成功,args为：\n " + $summer.jsonToStr(args));
+						if (confirm("是否进行IFWLogin登录")) {
+							
+							callSSOLoginController(loginInfo);
+						} else {
+							summer.openWin({
+								"id" : "root",
+								"url" : "index.html",
+								"pageParam" : {
+									"nctoken" : args.token
+								}
+							});
 						}
-						callSSOLoginController(loginInfo);
 					} else {
-						summer.openWin({
-							"id" : "root",
-							"url" : "index.html",
-							"pageParam" : {
-								"nctoken" : args.token
-							}
-						});
+						alert("使用UMService.login登陆NC成功回调,\n args.resultcode=" + args.resultcode + ",\n args为：" + $summer.jsonToStr(args));
 					}
-				} else {
-					alert("使用UMService.login登陆NC成功回调,\n args.resultcode=" + args.resultcode + ",\n args为：" + $summer.jsonToStr(args));
+				},
+				"error" : function(args) {
+					UM.hideLoadingBar();
+					alert("第一次登录UMService.login失败：" + $summer.jsonToStr(args));
 				}
-			},
-			"error" : function(args) {
-				UM.hideLoadingBar();
-				alert("第一次登录UMService.login失败：" + $summer.jsonToStr(args));
-			}
-		}, //参数
-		false//异步（true 同步）
-		);
+			}, //参数
+			false//异步（true 同步）
+			);
+		}
 	}
 }
 
@@ -235,9 +236,9 @@ function callSSOLoginController(loginInfo) {
 		"params" : loginInfo, //非必填参数，param可用来向MA传递自定义参数，Controller的args中可以获取
 		"callback" : function(args) {
 			UM.hideLoadingBar();
-			alert("第二次登录IFWLogin成功后：" + $summer.jsonToStr(args));
+			alert("IFWLogin登录成功，返回值：" + $summer.jsonToStr(args));
 			//console.log(JSON.stringify(args));
-			
+
 			//传递参数的方式很多，可以使用setStorage，也可以通过openWin的pageParam传递
 			//summer.setStorage("nctoken", args.nctoken);
 			summer.openWin({
