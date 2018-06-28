@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../css/iuapmobile.um.css">
+		<link rel="stylesheet" href="../../css/font-icons.css">
+		<link rel="stylesheet" href="../../css/other.css">
+		<script src="../../js/summer.js" ></script>
+		<script src="../../js/jquery.min.js" ></script>
+		<script src="../../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
+		<script src="js/other.js" ></script>
+        <script>
+        	$(function(){
+        		$(".um-input-clear").click(function() {
+        		    $(this).prev("input").val("");
+        		})
+        	})
+        </script>
+	</head>
+	<body>
+		<div class="um-win" id="index">
+			<div class="um-content">
+				<button class="btn" onclick="TestClick()" style="margin-top: 1%">
+					弹框测试
+				</button>
+				<button class="btn" onclick="GDmap()" style="margin-top: 1%">
+					地图测试
+				</button>
+				<button class="btn" onclick="inputClick()" style="margin-top: 1%">
+					输入框
+				</button>
+				<button class="btn" onclick="chartClick()" style="margin-top: 1%">
+					图表统计分析
+				</button>
+				<button class="btn" onclick="getBrowser()" style="margin-top: 1%">
+					获取浏览器类型
+				</button>
+				<button class="btn" onclick="myCenterClick()" style="margin-top: 1%">
+					myCenter测试
+				</button>
+				<div class="location">
+				<label class="lt">定位信息：</label>
+				<input class="lt input" id="location_input" placeholder="显示位置信息" readonly="true"/>
+				<button onclick="locationClick()">获取定位</button>
+				</div>
+				<ul class="category">
+
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>

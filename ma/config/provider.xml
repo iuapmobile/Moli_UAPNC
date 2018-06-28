@@ -1,0 +1,6 @@
+<provider-set>
+	<provider id="nclocator" class="com.yonyou.uap.um.gateway.service.NCLocatorGatewayService" />
+	<provider id="http" class="com.yonyou.uap.um.gateway.service.HTTPGatewayService" />
+	<provider id="jdbc" class="com.yonyou.uap.um.gateway.service.JDBCGatewayService" />
+	<provider id="u8http" class="com.yonyou.uap.um.gateway.service.U8HTTPGatewayService" />
+</provider-set>

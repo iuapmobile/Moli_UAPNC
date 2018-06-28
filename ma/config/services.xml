@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gateway>
+
+	<service id="getDeviceStatusService" provider="http" method="post"
+	returntype="String">
+		<properties></properties>
+		<ds-set>
+			<datasource name="emm_url" />
+		</ds-set>
+	</service>
+	
+	<!-- 配置NC65登录接口  第一次登录-->
+	<service id="ncLoginService" provider="nclocator" method="umLogin"
+	returntype="uap.vo.umobile.UMResult">
+		<properties>
+			<params>context:uap.vo.umobile.UMContext</params>
+			<interface>uap.itf.umoblie.IUapMoblieServ</interface>
+			<security>false</security>
+		</properties>
+		<ds-set>
+			<datasource name="nc65" />
+		</ds-set>
+	</service>
+	
+	<!-- 配置NC65登录接口  第二次登录-->
+	<service id="ssoLoginService" provider="nclocator" method="login"
+	returntype="String">
+		<properties>
+			<params>username:string|password:string|maps:java.util.Map</params>
+			<interface>nc.bs.framework.core.service.IFwLogin</interface>
+			<validateClass>com.yonyou.uap.um.ma.sso.NCSSOValidate</validateClass>
+			<security>true</security>
+		</properties>
+		<ds-set>
+			<datasource name="nc65" />
+		</ds-set>
+	</service>
+	
+	
+		<!-- 配置NC65登录接口  第二次登录-->
+	<service id="gct" provider="nclocator" method="login"
+	returntype="String">
+		<properties>
+			<params>username:string|password:string|maps:java.util.Map</params>
+			<interface>nc.bs.framework.core.service.IFwLogin</interface>
+			<validateClass>com.yonyou.uap.um.ma.sso.NCSSOValidate</validateClass>
+			<security>true</security>
+		</properties>
+		<ds-set>
+			<datasource name="nc65" />
+		</ds-set>
+	</service>
+
+
+	<!-- 审批任务接口  -->
+	<service id="getTaskList" provider="nclocator" method="getTaskList"
+		returntype="java.util.Map">
+		<properties>
+			<params>groupid:String|userid:String|date:String|statuskey:String|statuscode:String|condition:String|startline:java.lang.Integer|count:java.lang.Integer</params>
+			<interface>nc.itf.uap.pf.IPFMobileAppService</interface>
+			<security>true</security><!-- 经测试这个值对接口没有影响  -->
+		</properties>
+		<ds-set>
+			<datasource name="nc65" />
+		</ds-set>
+	</service>
+
+
+</gateway>

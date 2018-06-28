@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../css/iuapmobile.um.css">
+		<link rel="stylesheet" href="../css/login.css">
+		<script src="../js/Frameworks/iuapmobile.frameworks.core.js" ></script>
+		<script src="../js/summer.js" ></script>
+		<script src="../js/jquery.min.js" ></script>
+		<script src="../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
+		<script src="../js/login.js" ></script>
+	</head>
+	<body>
+		<div class="um-page" id="log">
+			<div class="um-content">
+				<h2 class="appname">API测试工程</h2>
+				<div class="login um-css3-center">
+					<div class="input-group">
+						<span class="user"></span>
+						<input id="user" type="text" value="mluser02" class="form-control" placeholder="用户名">
+					</div>
+					<div class="input-group">
+						<span class="psw"></span>
+						<input id="psw" type="password" value="yonyou@1" class="form-control" placeholder="密码">
+					</div>
+					<div class="clearfix um-block" style=" margin-top: 15px; margin-bottom: 15px">
+						<label class="fl">
+							<input type="checkbox"  class="none" name="" id="autoLogin">
+							<span class="check"></span> 自动登录 </label>
+						<a href="#" class="fr">忘记密码?</a>
+					</div>
+					<button id="btnLoginUAP" onclick="loginAP()" class="btn um-btn-success btn-lg um-block">
+						登录应用平台
+					</button>
+					<button id="btnLoginNC" style="margin-top: 10px" onclick="btnLoginNC_Click()" class="btn um-btn-success btn-lg um-block">
+						登录NC
+					</button>
+					
+					<button id="btnMASettings" style="margin-top: 10px" onclick="btnMASettings_Click()" class="btn um-btn-success btn-lg um-block">
+						MA设置
+					</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

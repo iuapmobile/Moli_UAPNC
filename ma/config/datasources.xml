@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dsset>
+
+	<datasource id="emm_url">
+		<url>{modules/mobrt/config/config.properties:mdm_login_url}/push/devicestatus</url>
+	</datasource>
+	<!-- 配置NC服务器地址 -->
+	<datasource id="nc65">
+		<url>http://172.20.15.37:8899</url>
+		<ncds>nc65</ncds>
+	</datasource>
+</dsset>

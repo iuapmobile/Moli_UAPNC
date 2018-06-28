@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../../css/iuapmobile.um.css">
+		<link rel="stylesheet" href="../../../css/font-icons.css">		
+		<script src="../../../js/jquery.min.js" ></script>
+		<script src="../../../js/summer.js" ></script>
+		<script src="js/InputTest.js" ></script>
+		<script src="../../../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
+		<style>
+		.um-list {margin: 30px 0px;}
+		.um-list li{border-bottom: 1px solid #ddd}
+		.um-list .um-list-item-inner{padding:0 15px;}
+		</style>
+		<script>
+			$isWeb = true
+		</script>
+		<script>
+			function $pageReady() {
+				alert("webview ready");
+			}
+
+			$(function() {
+
+			});
+		</script>
+	</head>
+	<body>
+		<div class="um-page" id="index">
+			<div class="um-content">
+
+				<form>
+					<ul class="um-list">
+						<li>
+							<div class="um-list-item">
+								<div class="um-list-item-inner">
+									<div class="um-list-item-left">
+										禁止输入中文
+									</div>
+									<div class="um-list-item-right">
+										<input type="text" class="form-control"  oninput="this.value=this.value.replace(/[\u4e00-\u9fa5]/g,'');" placeholder="禁止输入中文" required>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="um-list-item">
+								<div class="um-list-item-inner">
+									<div class="um-list-item-left">
+										只能输入中文
+									</div>
+									<div class="um-list-item-right">
+										<input type="email" class="form-control" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\u4E00-\u9FA5]/g,''))"  placeholder="只能输入中文" required>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="um-list-item">
+								<div class="um-list-item-inner">
+									<div class="um-list-item-left">
+										只能输入数字和英文
+									</div>
+									<div class="um-list-item-right">
+										<input type="password" class="form-control" onkeyup="value=value.replace(/[\W]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"  placeholder="只能输入数字和英文" required>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="um-list-item">
+								<div class="um-list-item-inner">
+									<div class="um-list-item-left">
+										只能输入数字
+									</div>
+									<div class="um-list-item-right">
+										<input type="password" class="form-control" onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"  placeholder="只能输入数字" required>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
