@@ -198,7 +198,7 @@ function btnLoginNC_Click() {
 					if (args.resultcode == "1") {//表示正常登陆成功
 						alert("使用UMService.login登陆NC成功,args为：\n " + $summer.jsonToStr(args));
 						if (confirm("是否进行IFWLogin登录")) {
-							
+
 							callSSOLoginController(loginInfo);
 						} else {
 							summer.openWin({
@@ -282,4 +282,51 @@ function btnMASettings_Click() {
 		"port" : curPort //MA主机端口
 	});
 	alert("当前MA的ip为" + curHost + ", port为" + curPort);
+}
+
+function btnSSOLoginNC_Click() {
+	username = $summer.byId("user").value;
+	//sh
+	password = $summer.byId("psw").value;
+	//"yonyou@1";
+	loginInfo = {
+		"username" : username,
+		"password" : password
+	}
+	if (username == "" || password == "") {
+		UM.alert("用户名密码不能为空");
+	} else {
+		summer.callService("UMService.login", //原生方法名字（类名+方法名）
+		{
+			"appid" : "moli_UAPNC", //必填，key值不可变
+			"type" : "ua", //必填，key值不可变
+			"user" : username, //必填，key值不可变
+			"pass" : password, //必填，key值不可变
+			"funcode" : "Moli01", //自定义参数，当type为nc时，必填，与NC有关
+			"callback" : function(args) {//args是一个json对象
+				UM.hideLoadingBar();
+				alert("SSO Login登录成功，返回值：" + $summer.jsonToStr(args));
+				//console.log(JSON.stringify(args));
+
+				//传递参数的方式很多，可以使用setStorage，也可以通过openWin的pageParam传递
+				//summer.setStorage("nctoken", args.nctoken);
+				summer.openWin({
+					"id" : "index",
+					"url" : "index.html",
+					"pageParam" : {
+						"ncurl" : "http://172.20.15.37:8899",
+						"nctoken" : args.nctoken,
+						"accountcode" : "dev",
+						"usercode" : loginInfo.username
+					}
+				});
+			},
+			"error" : function(args) {
+				UM.hideLoadingBar();
+				alert("第一次登录UMService.login失败：" + $summer.jsonToStr(args));
+			}
+		}, //参数
+		false//异步（true 同步）
+		);
+	}
 }

@@ -20,7 +20,7 @@ import nc.bs.framework.common.NCLocator;
 import nc.bs.framework.comn.NetStreamContext;
 import nc.bs.framework.server.util.KeyUtil;
 
-public class GetUserVOTranController {	
+public class UserVOController {	
 
 	public String GetUserVOTran(String args) {
 

@@ -179,17 +179,17 @@ function test_getUserVOTran() {
 	};
 	summer.callAction({
 		"appid" : "Moli_UAPNC", //"Demonstration", //当前应用id，即config.xml配置文件中的应用ID
-		"viewid" : "com.yonyou.moli.nc65.GetUserVOTranController", //后台带包名的Controller名
+		"viewid" : "com.yonyou.moli.nc65.UserVOController", //后台带包名的Controller名
 		"action" : "GetUserVOTran", //方法名
 		"params" : param, //自定义参数
 		"callback" : function(args) {
 			UM.hideLoadingBar();
-			alert("调用 com.yonyou.moli.nc65.GetUserVOTranController.GetUserVOTran 成功!返回值为:\n " + JSON.stringify(args));
+			alert("调用 com.yonyou.moli.nc65.UserVOController.GetUserVOTran() 成功!返回值为:\n " + JSON.stringify(args));
 			console.log(JSON.stringify(args) + "\n" + "返回值的类型为：" + ( typeof args));
 
 			G_USERID = args.cuserid;
 			G_GROUDID = args.pk_group;
-			alert("G_USERID=" + G_USERID + "\n" + "G_GROUDID=" + G_GROUDID);
+			alert("设置G_USERID=" + G_USERID + "\n" + "设置G_GROUDID=" + G_GROUDID);
 
 		},
 		"error" : function(args) {
@@ -232,14 +232,24 @@ function test_getTaskListNew() {
 	 }
 	 };
 	 */
-	
-	
-	
+
+	if (!G_GROUDID || !G_USERID) {
+		if (confirm("没有groupid和userid，是否先先获取groudid和userid？")) {
+			test_getUserVOTran();
+		} else {
+			alert("由于没有groudid和userid不能调用，点击确定后返回");
+			return;
+		}
+	}
+
 	//groupid、userid等加上nc_前缀，避免与MA参数冲突
 	var param = {
-		"ncurl" : ncurl,
-		"nctoken" : jsonPageParam.nctoken,
-		"nc_usercode":jsonPageParam.usercode,
+		"nc_url" : ncurl,
+		//"nc_dataSource":"nc65",
+		"nc_accountcode" : "dev",
+		"nc_token" : jsonPageParam.nctoken,
+		"nc_usercode" : jsonPageParam.usercode,
+
 		"nc_groupid" : G_GROUDID, //1
 		"nc_userid" : G_USERID, //2
 		"date" : "2018-6-15", //3
@@ -253,7 +263,7 @@ function test_getTaskListNew() {
 
 	summer.callAction({
 		"appid" : "Moli_UAPNC", //"Demonstration", //当前应用id，即config.xml配置文件中的应用ID
-		"viewid" : "com.yonyou.moli.nc65.GetTaskListController", //后台带包名的Controller名
+		"viewid" : "com.yonyou.moli.nc65.UMApproveController", //后台带包名的Controller名
 		"action" : "GetTaskList", //方法名
 		"params" : param, //自定义参数
 		"callback" : function(args) {
