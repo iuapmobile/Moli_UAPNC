@@ -9,4 +9,9 @@
 		<url>http://172.20.15.37:8899</url>
 		<ncds>nc65</ncds>
 	</datasource>
+	
+	<datasource id="gct_nc65">
+		<url>http://172.20.15.37:8899</url>
+		<ncds>nc65</ncds>
+	</datasource>
 </dsset>

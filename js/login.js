@@ -245,7 +245,7 @@ function callSSOLoginController(loginInfo) {
 				"id" : "index",
 				"url" : "index.html",
 				"pageParam" : {
-					"ncurl" : "http://172.20.15.37:8899",
+					//"ncurl" : "http://172.20.15.37:8899",//可以不传递，也可以可以MA通过datasource.xml获取
 					"nctoken" : args.nctoken,
 					"accountcode" : "dev",
 					"usercode" : loginInfo.username

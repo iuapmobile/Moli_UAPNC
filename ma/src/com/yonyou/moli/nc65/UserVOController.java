@@ -11,7 +11,9 @@ import org.json.JSONObject;
 import com.yonyou.maportal.itf.portalcore.IMultiServicesInvorker;
 import com.yonyou.uap.um.context.util.UmContextUtil;
 import com.yonyou.uap.um.gateway.service.GatewayServiceFactory;
+import com.yonyou.uap.um.gateway.service.GatewayServiceUtil;
 import com.yonyou.uap.um.gateway.service.IGatewayService;
+import com.yonyou.uap.um.gateway.xml.GatewayNodeFactory;
 
 import nc.bcmanage.bs.IBusiCenterManageService;
 import nc.bcmanage.vo.BusiCenterVO;
@@ -23,14 +25,25 @@ import nc.bs.framework.server.util.KeyUtil;
 public class UserVOController {	
 
 	public String GetUserVOTran(String args) {
-
+		 final String SERVICEID_getTaskList = "gct_getTaskList";// 与service.xml中的ssoLoginService保持一致
 		JSONObject resultJson = new JSONObject();
 		try {
 			JSONObject json = new JSONObject(args);
+			String appid = json.getString("appid");
 			String strToken = json.getString("nctoken");// 获取app传递的token
 			String usercode = json.getString("usercode");
 			String accountcode = json.getString("accountcode");
-			String url = json.getString("ncurl");
+
+			
+			String url = null;
+			if (json.has("ncurl")) {
+				url = json.getString("ncurl");
+			} else {
+				url = GatewayNodeFactory.getGatewayNode(appid).get(SERVICEID_getTaskList).getCurrentDs().get(GatewayServiceUtil.PROPERTY_URL).toString().trim();
+			}
+			
+			
+			
 
 			NetStreamContext.setToken(KeyUtil.decodeToken(strToken));
 			Properties props = new Properties();

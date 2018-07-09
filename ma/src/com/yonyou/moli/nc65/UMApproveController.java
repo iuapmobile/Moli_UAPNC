@@ -10,7 +10,9 @@ import org.json.JSONObject;
 import com.yonyou.maportal.itf.portalcore.IMultiServicesInvorker;
 import com.yonyou.uap.um.context.util.UmContextUtil;
 import com.yonyou.uap.um.gateway.service.GatewayServiceFactory;
+import com.yonyou.uap.um.gateway.service.GatewayServiceUtil;
 import com.yonyou.uap.um.gateway.service.IGatewayService;
+import com.yonyou.uap.um.gateway.xml.GatewayNodeFactory;
 
 import nc.bcmanage.bs.IBusiCenterManageService;
 import nc.bcmanage.vo.BusiCenterVO;
@@ -21,14 +23,22 @@ import nc.bs.framework.server.util.KeyUtil;
 import net.sf.json.JSONArray;
 
 public class UMApproveController {
-	private final String SERVICEID_getTaskList = "getTaskList";// 与service.xml中的ssoLoginService保持一致
+	private final String SERVICEID_getTaskList = "gct_getTaskList";// 与service.xml中的ssoLoginService保持一致
 
 	public String GetTaskList(String args) {
 
 		JSONObject resultJson = new JSONObject();
 		try {
 			JSONObject json = new JSONObject(args);
-			String url = json.getString("nc_url");
+
+			String appid = json.getString("appid");
+			String url = null;
+			if (json.has("nc_url")) {
+				url = json.getString("nc_url");
+			} else {
+				url = GatewayNodeFactory.getGatewayNode(appid).get(SERVICEID_getTaskList).getCurrentDs()
+						.get(GatewayServiceUtil.PROPERTY_URL).toString().trim();
+			}
 			String strToken = json.getString("nc_token");// 获取app传递的token
 			String usercode = json.getString("nc_usercode");
 			String userid = json.getString("nc_userid");
@@ -101,7 +111,8 @@ public class UMApproveController {
 
 			List<List<String>> methodnames = new ArrayList<List<String>>();
 			List<String> methodnameList = new ArrayList<String>();
-			methodnameList.add(this.SERVICEID_getTaskList);
+			String methodName = GatewayNodeFactory.getGatewayNode(appid).get(SERVICEID_getTaskList).getMethod().trim();
+			methodnameList.add(methodName);
 			methodnames.add(methodnameList);
 
 			List<List<Class[]>> pClass = new ArrayList<List<Class[]>>();

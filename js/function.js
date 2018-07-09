@@ -171,12 +171,25 @@ function test_getUserVOTran() {
 	});
 
 	alert(JSON.stringify(summer.pageParam));
-	var param = {
-		"ncurl" : summer.pageParam.ncurl, //"http://172.20.15.37:8899"
-		"accountcode" : summer.pageParam.accountcode, //"dev"
-		"usercode" : summer.pageParam.usercode,
-		"nctoken" : summer.pageParam.nctoken
-	};
+	var param = {};
+
+	if (confirm("通过MA配置进行调用？")) {
+		param = {
+
+			"accountcode" : summer.pageParam.accountcode, //"dev"
+			"usercode" : summer.pageParam.usercode,
+			"nctoken" : summer.pageParam.nctoken
+		};
+	} else {
+
+		param = {
+			"ncurl" : summer.pageParam.ncurl, //"http://172.20.15.37:8899"
+			"accountcode" : summer.pageParam.accountcode, //"dev"
+			"usercode" : summer.pageParam.usercode,
+			"nctoken" : summer.pageParam.nctoken
+		};
+	}
+
 	summer.callAction({
 		"appid" : "Moli_UAPNC", //"Demonstration", //当前应用id，即config.xml配置文件中的应用ID
 		"viewid" : "com.yonyou.moli.nc65.UserVOController", //后台带包名的Controller名
@@ -212,7 +225,7 @@ function test_getTaskListNew() {
 
 	if (ncurl == null || ncurl == "") {
 		alert("nc地址没有传递")
-		ncurl = "http://172.20.15.37:8899";
+		//ncurl = "http://172.20.15.37:8899";
 	}
 	/*
 	 var json = {
@@ -244,7 +257,7 @@ function test_getTaskListNew() {
 
 	//groupid、userid等加上nc_前缀，避免与MA参数冲突
 	var param = {
-		"nc_url" : ncurl,
+		//"nc_url" : ncurl,
 		//"nc_dataSource":"nc65",
 		"nc_accountcode" : "dev",
 		"nc_token" : jsonPageParam.nctoken,

@@ -64,6 +64,18 @@
 			<datasource name="nc65" />
 		</ds-set>
 	</service>
+	
+	<service id="gct_getTaskList" provider="nclocator" method="getTaskList"
+		returntype="java.util.Map">
+		<properties>
+			<params>groupid:String|userid:String|date:String|statuskey:String|statuscode:String|condition:String|startline:java.lang.Integer|count:java.lang.Integer</params>
+			<interface>nc.itf.uap.pf.IPFMobileAppService</interface>
+			<security>true</security><!-- 经测试这个值对接口没有影响  -->
+		</properties>
+		<ds-set>
+			<datasource name="gct_nc65" />
+		</ds-set>
+	</service>
 
 
 </gateway>
