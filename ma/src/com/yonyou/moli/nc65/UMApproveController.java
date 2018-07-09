@@ -39,6 +39,7 @@ public class UMApproveController {
 				url = GatewayNodeFactory.getGatewayNode(appid).get(SERVICEID_getTaskList).getCurrentDs()
 						.get(GatewayServiceUtil.PROPERTY_URL).toString().trim();
 			}
+			
 			String strToken = json.getString("nc_token");// 获取app传递的token
 			String usercode = json.getString("nc_usercode");
 			String userid = json.getString("nc_userid");
@@ -47,11 +48,28 @@ public class UMApproveController {
 			if (json.has("nc_dataSource")) {
 				dataSource = json.getString("nc_dataSource");// 客户端如果传递了，就直接使用
 			}
-			String accountcode = "dev";// 默认accountcode
-			if (json.has("nc_accountcode")) {
-				accountcode = json.getString("nc_accountcode");// 客户端如果传递了，就直接使用
+			if (dataSource == null || dataSource.equals("")) {
+				/*
+				 * available code by gct IBusiCenterManageService bcservice =
+				 * NCLocator.getInstance(props)
+				 * .lookup(IBusiCenterManageService.class);//
+				 * 根据nc的url地址获取BusiCenterManageService BusiCenterVO centervo =
+				 * bcservice.getBusiCenterByCode(accountcode);//
+				 * BusiCenterManageService根据账套accountcode获取BusiCenter dataSource
+				 * = centervo.getDataSourceName();// BusiCenter获取DataSource
+				 */
+				dataSource = GatewayNodeFactory.getGatewayNode(appid).get(SERVICEID_getTaskList).getCurrentDs()
+						.get(GatewayServiceUtil.PROPERTY_DATASOURCE).toString().trim();
+
+			} else {
+				throw new Exception("参数DataSource没有指定值，不传递该参数则取配置文件datasource.xml中的值");
 			}
 
+			/*
+			 * String accountcode = "dev";// 默认accountcode if
+			 * (json.has("nc_accountcode")) { accountcode =
+			 * json.getString("nc_accountcode");// 客户端如果传递了，就直接使用 }
+			 */
 			// <params>groupid:String|userid:String|date:String|statuskey:String|statuscode:String|condition:String|startline:java.lang.Integer|count:java.lang.Integer</params>
 			String task_Date = json.has("nc_taskDate") ? json.getString("nc_taskDate") : "2018-6-15";
 			String task_statuskey = json.has("task_statuskey") ? json.getString("task_statuskey") : "ishandled";
@@ -70,16 +88,22 @@ public class UMApproveController {
 			Properties props = new Properties();
 			props.setProperty("SERVICEDISPATCH_URL", url + "/ServiceDispatcherServlet");
 
-			// 必须设置数据源
+			// 必须设置数据源，数据源可以通过NC地址url+账套accountcode获取
 			if (dataSource == null || dataSource.equals("")) {
-				IBusiCenterManageService bcservice = NCLocator.getInstance(props)
-						.lookup(IBusiCenterManageService.class);
+				/*
+				 * IBusiCenterManageService bcservice =
+				 * NCLocator.getInstance(props)
+				 * .lookup(IBusiCenterManageService.class);//
+				 * 根据nc的url地址获取BusiCenterManageService BusiCenterVO centervo =
+				 * bcservice.getBusiCenterByCode(accountcode);//
+				 * BusiCenterManageService根据账套accountcode获取BusiCenter dataSource
+				 * = centervo.getDataSourceName();// BusiCenter获取DataSource
+				 */
+				dataSource = GatewayNodeFactory.getGatewayNode(appid).get(SERVICEID_getTaskList).getCurrentDs()
+						.get(GatewayServiceUtil.PROPERTY_DATASOURCE).toString().trim();
 
-				BusiCenterVO centervo = bcservice.getBusiCenterByCode(accountcode);
-				InvocationInfoProxy.getInstance().setUserDataSource(centervo.getDataSourceName());
-			} else {
-				InvocationInfoProxy.getInstance().setUserDataSource(dataSource);
 			}
+			InvocationInfoProxy.getInstance().setUserDataSource(dataSource);
 
 			// 设置token
 			byte[] token = KeyUtil.decodeToken(strToken);
