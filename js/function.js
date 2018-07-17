@@ -173,10 +173,8 @@ function test_getUserVOTran() {
 	alert(JSON.stringify(summer.pageParam));
 	var param = {};
 
-	if (confirm("通过MA配置进行调用？")) {
+	if (confirm("通过MA配置进行调用？端无需指定ncurl和accoutcode")) {
 		param = {
-
-			"accountcode" : summer.pageParam.accountcode, //"dev"
 			"usercode" : summer.pageParam.usercode,
 			"nctoken" : summer.pageParam.nctoken
 		};
@@ -254,25 +252,42 @@ function test_getTaskListNew() {
 			return;
 		}
 	}
-
+	var param = {};
 	//groupid、userid等加上nc_前缀，避免与MA参数冲突
-	var param = {
-		//"nc_url" : ncurl,
-		//"nc_dataSource":"nc65",
-		"nc_accountcode" : "dev",
-		"nc_token" : jsonPageParam.nctoken,
-		"nc_usercode" : jsonPageParam.usercode,
+	if (confirm("通过MA配置进行调用？端无需指定ncurl、nc_dataSource和accoutcode")) {
+		param = {
+			"nc_token" : jsonPageParam.nctoken,
+			"nc_usercode" : jsonPageParam.usercode,
 
-		"nc_groupid" : G_GROUDID, //1
-		"nc_userid" : G_USERID, //2
-		"date" : "2018-6-15", //3
-		"statuskey" : "ishandled", //4
-		"statuscode" : "unhandled", //5
-		"condition" : "", //6
-		"startline" : 1, //7
-		"count" : 25//8
+			"nc_groupid" : G_GROUDID, //1
+			"nc_userid" : G_USERID, //2
 
-	};
+			"date" : "2018-6-15", //3
+			"statuskey" : "ishandled", //4
+			"statuscode" : "unhandled", //5
+			"condition" : "", //6
+			"startline" : 1, //7
+			"count" : 25//8
+
+		};
+	} else {
+		param = {
+			//"nc_url" : ncurl,
+			//"nc_dataSource":"nc65",
+			"nc_accountcode" : "dev",
+			"nc_token" : jsonPageParam.nctoken,
+			"nc_usercode" : jsonPageParam.usercode,
+
+			"nc_groupid" : G_GROUDID, //1
+			"nc_userid" : G_USERID, //2
+			"date" : "2018-6-15", //3
+			"statuskey" : "ishandled", //4
+			"statuscode" : "unhandled", //5
+			"condition" : "", //6
+			"startline" : 1, //7
+			"count" : 25//8
+		}
+	}
 
 	summer.callAction({
 		"appid" : "Moli_UAPNC", //"Demonstration", //当前应用id，即config.xml配置文件中的应用ID
